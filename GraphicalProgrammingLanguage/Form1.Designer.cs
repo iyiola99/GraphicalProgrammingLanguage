@@ -54,6 +54,7 @@ namespace GraphicalProgrammingLanguage
             this.commandLine.Name = "commandLine";
             this.commandLine.Size = new System.Drawing.Size(331, 22);
             this.commandLine.TabIndex = 1;
+            this.commandLine.KeyDown += new System.Windows.Forms.KeyEventHandler(this.commandLine_KeyDown);
             // 
             // displayWindow
             // 
@@ -64,6 +65,7 @@ namespace GraphicalProgrammingLanguage
             this.displayWindow.Size = new System.Drawing.Size(350, 276);
             this.displayWindow.TabIndex = 2;
             this.displayWindow.TabStop = false;
+            this.displayWindow.Paint += new System.Windows.Forms.PaintEventHandler(this.displayWindow_Paint);
             // 
             // runButton
             // 
