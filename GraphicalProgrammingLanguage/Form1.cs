@@ -148,7 +148,24 @@ namespace GraphicalProgrammingLanguage
                     default:
                         MessageBox.Show("Invalid Command " + vs1[i] + "On Line " + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
+
+
+                    case "fill":
+                        if (vs2.Length>2|| vs2.Length<2)
+                        {
+                            MessageBox.Show("Invalid Fill Parameters" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else if (vs2[1] == "off" || vs2[1] == "off")
+                        {
+                            fill = 0;
+                        }
+                        else if (vs2[1] == "on" || vs2[1] == "on")
+                        {
+                            fill = 1;
+                        }
+                        break;
                 }
+                    
                     
 
 
