@@ -49,5 +49,7 @@ namespace UnitTest
 
             CompareBitmapsLazy(bitmap1, bitmap2);
         }
+
+      
     }
 }

@@ -11,25 +11,42 @@ namespace UnitTest
         public void TestMethod1(string command)
         {
             (new commandParser(new Canvas(Graphics.FromImage(new Bitmap(500, 500))))).commandLine(command, 0);
-           
+
         }
         [TestMethod]
         [ExpectedException(typeof(Exception), "Invalid Coordinate ")]
         public void Invalidmoveto()
         {
-            TestMethod1("mov");
+            TestMethod1("moveto r 40");
         }
         [TestMethod]
         [ExpectedException(typeof(Exception), "Invalid Command ")]
         public void Invalidcommandtest()
         {
-            TestMethod1(" ");
+            TestMethod1("dsfef ");
         }
         [TestMethod]
         [ExpectedException(typeof(Exception), "Invalid Colour ")]
         public void Invalidcolour()
         {
-            TestMethod1(" ");
+            TestMethod1(" wine ");
+        }
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Invalid fill state ")]
+        public void Invalidfillstate()
+        {
+
+            TestMethod1(" fill dffd");
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Invalid clear command ")]
+        public void Invalidclear()
+        {
+
+            TestMethod1(" clerr");
+
         }
     }
 }
