@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace GraphicalProgrammingLanguage
 {
 
-    class commandParser
+    public class commandParser
     {
         Color color = Color.Black;
         int fill = 0;
@@ -24,7 +24,16 @@ namespace GraphicalProgrammingLanguage
 
             for (int i = 0; i < vs1.Length; i++)
             {
-                commandLine(vs1[i], i);
+                try
+                {
+                    commandLine(vs1[i], i);
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(string.Format("on line {0} : {1}", i, e.Message));
+                    break;
+                }
+               
 
 
             }
@@ -43,26 +52,26 @@ namespace GraphicalProgrammingLanguage
 
             int Integer;
 
-             switch (vs2[0].ToLower())
-                {
-                    case "moveto":
-                        if(vs2.Length>3 || vs2.Length < 3)
-                        {
-                            MessageBox.Show("Invalid Move To Parameter" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else if (int.TryParse(vs2[1],out Integer) == false)
-                        {
-                            MessageBox.Show("Move Position X-Axis Should Be An Integer" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else if (int.TryParse(vs2[2], out Integer) == false)
-                        {
-                            MessageBox.Show("Move Position Y-Axis Should Be An Integer" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            myCanvas.Moveto(Int32.Parse(vs2[1]), Int32.Parse(vs2[2]));
-                        }
-                        break;
+            switch (vs2[0].ToLower())
+            {
+                case "moveto":
+                    if (vs2.Length > 3 || vs2.Length < 3)
+                    {
+                        throw new Exception("Invalid Move To Parameter" );
+                    }
+                    else if (int.TryParse(vs2[1], out Integer) == false)
+                    {
+                        throw new Exception("Move Position X-Axis Should Be An Integer" );
+                    }
+                    else if (int.TryParse(vs2[2], out Integer) == false)
+                    {
+                        throw new Exception("Move Position Y-Axis Should Be An Integer" );
+                    }
+                    else
+                    {
+                        myCanvas.Moveto(Int32.Parse(vs2[1]), Int32.Parse(vs2[2]));
+                    }
+                    break;
 
                 case "reset":
 
@@ -74,32 +83,32 @@ namespace GraphicalProgrammingLanguage
 
                     if (vs2.Length > 3 || vs2.Length < 3)
                     {
-                        MessageBox.Show("Invalid Parameter Passed, Two Parament Required" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new Exception("Invalid Parameter Passed, Two Parament Required" );
                     }
                     else if (int.TryParse(vs2[1], out Integer) == false)
                     {
-                        MessageBox.Show("Rectangle Width Parameter Must Be  An Integer" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new Exception("Rectangle Width Parameter Must Be  An Integer" );
                     }
                     else if (int.TryParse(vs2[2], out Integer) == false)
                     {
-                        MessageBox.Show("Rectangle Height Parameter Must Be  An Integer" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new Exception("Rectangle Height Parameter Must Be  An Integer" );
                     }
                     else
-                        {
-                            myCanvas.DrawRectangle(color, Int32.Parse(vs2[1]), Int32.Parse(vs2[2]));
-                        }
-                        break;
+                    {
+                        myCanvas.DrawRectangle(color, Int32.Parse(vs2[1]), Int32.Parse(vs2[2]));
+                    }
+                    break;
 
-                    
+
 
                 case "circle":
                     if (vs2.Length > 2 || vs2.Length < 2)
                     {
-                        MessageBox.Show("Invalid Parameter Passed, One Parameter Required" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new Exception("Invalid Parameter Passed, One Parameter Required" );
                     }
                     else if (int.TryParse(vs2[1], out Integer) == false)
                     {
-                        MessageBox.Show("Circle Radius Value Must Be  An Integer" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new Exception("Circle Radius Value Must Be  An Integer" );
                     }
                     else
                     {
@@ -115,22 +124,22 @@ namespace GraphicalProgrammingLanguage
 
                     }
 
-                    
+
                     break;
 
                 case "drawto":
 
                     if (vs2.Length > 3 || vs2.Length < 3)
                     {
-                        MessageBox.Show("Invalid Parameters Passed, Two Parameter Required" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new Exception("Invalid Parameters Passed, Two Parameter Required" );
                     }
                     else if (int.TryParse(vs2[1], out Integer) == false)
                     {
-                        MessageBox.Show("Draw To End of X-Axis and Parameter Must Be An Interger" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new Exception("Draw To End of X-Axis and Parameter Must Be An Interger" );
                     }
                     else if (int.TryParse(vs2[2], out Integer) == false)
                     {
-                        MessageBox.Show("Draw To End of Y-Axix And Parameter Must Be An Interger" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new Exception("Draw To End of Y-Axix And Parameter Must Be An Interger" );
                     }
                     else
                     {
@@ -146,15 +155,12 @@ namespace GraphicalProgrammingLanguage
                     myCanvas.Clear();
                     break;
 
-                default:
-                    MessageBox.Show("Invalid Command " + command + "On Line " + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
 
 
                 case "fill":
                     if (vs2.Length > 2 || vs2.Length < 2)
                     {
-                        MessageBox.Show("Invalid Fill Parameters" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new Exception("Invalid Fill Parameters" );
                     }
                     else if (vs2[1] == "off" || vs2[1] == "off")
                     {
@@ -169,7 +175,7 @@ namespace GraphicalProgrammingLanguage
                 case "colour":
                     if (vs2.Length > 2 || vs2.Length < 2)
                     {
-                        MessageBox.Show("Invalid colour parameters" + (i + 1), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new Exception("Invalid colour parameters" );
 
 
                     }
@@ -194,6 +200,9 @@ namespace GraphicalProgrammingLanguage
                     }
 
                     break;
+                default:
+                    throw new Exception("Invalid Command " );
+                    
             }
 
 
