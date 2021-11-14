@@ -28,7 +28,7 @@ namespace GraphicalProgrammingLanguage
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.DoubleBuffered = true; // prevents flickering
+            this.DoubleBuffered = true; 
 
         }
 
@@ -70,9 +70,26 @@ namespace GraphicalProgrammingLanguage
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string path = @"C:\\Users\\Rotamin\\Desktop\\myProgram.txt";
-            File.WriteAllText(path, programWindow.Text);
-            MessageBox.Show("Successfully Saved");
+            Stream myStream;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog.FilterIndex = 1;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = saveFileDialog.OpenFile()) != null)
+                {
+                    using (StreamWriter writer = new StreamWriter(myStream))
+                    {
+                        writer.Write(programWindow.Text);
+                        writer.Close();
+                    }
+                    myStream.Close();
+                }
+            }
+            // string path = @"C:\\Users\\Rotamin\\Desktop\\myProgram.txt";
+            //File.WriteAllText(path, programWindow.Text);
+            //MessageBox.Show("Successfully Saved");
 
         }
 
