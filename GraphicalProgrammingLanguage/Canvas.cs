@@ -9,7 +9,7 @@ namespace GraphicalProgrammingLanguage
 {/// <summary>
 /// An area that controls all the drawing element
 /// </summary>
-    class Canvas
+    public class Canvas
     {
         Graphics g;
         Pen Pen;
