@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GraphicalProgrammingLanguage;
 using System;
+using System.Drawing;
 
 namespace UnitTest
 {
@@ -9,16 +10,14 @@ namespace UnitTest
     {
         public void TestMethod1(string command)
         {
-            Form1 form1i = new Form1();
-            form1i.programWindow.Text = command;
-            form1i.runButton_Click(new object(), new System.EventArgs());
+            (new commandParser(new Canvas(Graphics.FromImage(new Bitmap(500, 500))))).commandLine(command, 0);
            
         }
         [TestMethod]
         [ExpectedException(typeof(Exception), "Invalid Coordinate ")]
         public void Invalidmoveto()
         {
-            TestMethod1("moveto 100 100");
+            TestMethod1("mov");
         }
         [TestMethod]
         [ExpectedException(typeof(Exception), "Invalid Command ")]
