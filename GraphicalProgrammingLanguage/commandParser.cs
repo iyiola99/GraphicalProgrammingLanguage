@@ -9,7 +9,9 @@ namespace GraphicalProgrammingLanguage
 
     public class commandParser
     {
+        // default pen color is set to  black
         Color color = Color.Black;
+        //default fill is set to zero/off
         int fill = 0;
 
         Canvas myCanvas;
@@ -17,13 +19,41 @@ namespace GraphicalProgrammingLanguage
         {
             myCanvas = canvas;
         }
+        
+        
+        public void programWindow(string script)
+        {
+            //creates char array called vs
+            char[] vs = new[] { '\r', '\n' };
+            // splits the scripts string by \r and \n
+            String[] vs1 = script.Split(vs, StringSplitOptions.RemoveEmptyEntries);
+            // for loop using the length of the splitted string
+            for (int i = 0; i < vs1.Length; i++)
+            {
+                try
+                {
+                    //call command line method pasing the splitted command and line no
+                    commandLine(vs1[i], i);
+                }
+                catch (Exception e)
+                {
+                    //output error message with the line no
+                    MessageBox.Show(string.Format("on line {0} : {1}", i, e.Message));
+                    break;
+                }
+            }
+
+
+        }
+
+
         // Execute commands entered by user as a string
-        public void commandLine(string command, int lineNo) 
+        public void commandLine(string command, int lineNo)
         {
             int i = lineNo;
-           // splits the command into nvs2 based on spaces
-            String[] vs2 = command.Split(' '); 
-
+            // splits the command into vs2 based on spaces
+            String[] vs2 = command.Split(' ');
+            // creates and integer testing variable
             int Integer;
 
             switch (vs2[0].ToLower())
@@ -124,22 +154,22 @@ namespace GraphicalProgrammingLanguage
                     }
                     // else the x&y axis are parsed as an interger and command is executed
                     else
-                    { 
+                    {
 
                         myCanvas.DrawLine(color, Int32.Parse(vs2[1]), Int32.Parse(vs2[2]));
                     }
                     break;
-                    //  triangle command calls method contained in the canvas class
+                //  triangle command calls method contained in the canvas class
                 case "triangle":
                     myCanvas.DrawTriangle(color);
                     break;
-                    //  clear command calls  method contained in the canvas class
+                //  clear command calls  method contained in the canvas class
                 case "clear":
                     myCanvas.Clear();
                     break;
 
 
-                    // fill command takes one argument
+                // fill command takes one argument
                 case "fill":
                     if (vs2.Length > 2 || vs2.Length < 2)
                     {
@@ -155,7 +185,7 @@ namespace GraphicalProgrammingLanguage
                         fill = 1;
                     }
                     break;
-                    // coolour command takes one argument to specify the color of the pen
+                // coolour command takes one argument to specify the color of the pen
                 case "colour":
                     if (vs2.Length > 2 || vs2.Length < 2)
                     {
@@ -194,25 +224,6 @@ namespace GraphicalProgrammingLanguage
         }
         // excute script by calling the commandline repeatedly, execution stops if an error is detected
         // and an  error messaged appears with line number 
-        public void programWindow(string script)
-        {
-            char[] vs = new[] { '\r', '\n' };
-            String[] vs1 = script.Split(vs, StringSplitOptions.RemoveEmptyEntries);
 
-            for (int i = 0; i < vs1.Length; i++)
-            {
-                try
-                {
-                    commandLine(vs1[i], i);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(string.Format("on line {0} : {1}", i, e.Message));
-                    break;
-                }
-            }
-
-
-        }
     }
 }

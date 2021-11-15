@@ -28,12 +28,14 @@ namespace GraphicalProgrammingLanguage
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //prevents flickering
             this.DoubleBuffered = true; 
 
         }
 
         private void runButton_Click(object sender, EventArgs e)
         {
+            // calls the commandparser class
             cp.programWindow(programWindow.Text);
 
             Refresh();
@@ -52,6 +54,7 @@ namespace GraphicalProgrammingLanguage
             {
                 try
                 {
+                    //calls the commandpaser class
                     cp.commandLine(commandLine.Text, 0);
                 }
                 catch (Exception ex)
@@ -67,7 +70,7 @@ namespace GraphicalProgrammingLanguage
 
             Refresh();
         }
-
+        // saves program to text file
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Stream myStream;
@@ -92,7 +95,7 @@ namespace GraphicalProgrammingLanguage
             //MessageBox.Show("Successfully Saved");
 
         }
-
+        // load program from textfile
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Stream myStream;
@@ -107,7 +110,7 @@ namespace GraphicalProgrammingLanguage
                 }
             }
         }
-
+        // close the application
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
