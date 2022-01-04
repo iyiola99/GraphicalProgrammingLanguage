@@ -4,25 +4,45 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace GraphicalProgrammingLanguage
+
 {/// <summary>
 /// An area that controls all the drawing element
 /// </summary>
     public class Canvas
+
     {
         Graphics g;
         Pen Pen;
+        bool flashing = false;
+        bool cycle = true;
+
+       
+
 
         int xPos, yPos; // pen position
+        protected System.Windows.Forms.PictureBox displayWindow;
+        private Graphics graphics;
 
-        public Canvas(Graphics g)
+        public Canvas(Graphics g, System.Windows.Forms.PictureBox displayWindow)
         {
             this.g = g;
+            this.displayWindow = displayWindow;
+            
             xPos = yPos = 0;
 
 
         }
+
+        public Canvas(Graphics graphics)
+        {
+            this.graphics = graphics;
+        }
+
+
+
         /// <summary>
         /// Draws a line connecting two position specifed by two coordinate pairs
         /// </summary>
@@ -105,5 +125,33 @@ namespace GraphicalProgrammingLanguage
         {
             g.Clear(Color.Gray);
         }
+
+        public void flashrunner()
+        {
+            if (flashing)
+            {
+                if (cycle)
+                {
+                    Pen.Color = Color.Beige;
+                    SolidBrush SolidBrush = new SolidBrush(Color.AliceBlue);
+                    SolidBrush.Dispose();
+                    cycle = false;
+
+                }
+                else
+                {
+                    Pen.Color = Color.Black;
+                    SolidBrush SolidBrush = new SolidBrush(Color.White);
+                    cycle = true;
+
+                }
+                Update();
+            }
+        }
+        public void Update()
+        {
+            displayWindow.Refresh();
+        }
+        
     }
 }

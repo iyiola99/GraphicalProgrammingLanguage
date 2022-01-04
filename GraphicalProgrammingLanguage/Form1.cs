@@ -6,16 +6,21 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GraphicalProgrammingLanguage
+
 {
     public partial class Form1 : Form
     {
         Bitmap bitmap = new Bitmap(640, 480);
         Canvas myCanvas;
         commandParser cp;
+        Thread ColourThread;
+        Boolean flag = true;
+        
 
 
 
@@ -24,6 +29,44 @@ namespace GraphicalProgrammingLanguage
             InitializeComponent();
             myCanvas = new Canvas(Graphics.FromImage(bitmap));
             cp = new commandParser(myCanvas);
+            ColourThread = new Thread(this.flashThread);
+            ColourThread.Start();
+        }
+        protected override void OnFormClosed(System.Windows.Forms.FormClosedEventArgs e)
+        {
+            flag=false;
+        }
+
+        public void flashThread()
+        {
+            while (flag)
+            {
+                Thread.Sleep(500);
+                try
+                {
+                    Update();
+                }
+                 catch (Exception e)
+                {
+
+                }
+            }
+        }
+        public void Updatesafe()
+        {
+            if (displayWindow.InvokeRequired)
+            {
+                Action action = delegate
+                 {
+                     Updatesafe();
+                 };
+                displayWindow.Invoke(action);
+            }
+            else
+            {
+                myCanvas.flashrunner();
+            }
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
