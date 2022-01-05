@@ -16,32 +16,17 @@ namespace GraphicalProgrammingLanguage
     {
         Graphics g;
         Pen Pen;
-        bool flashing = false;
-        bool cycle = true;
-
-       
-
 
         int xPos, yPos; // pen position
-        protected System.Windows.Forms.PictureBox displayWindow;
-        private Graphics graphics;
+    
+        
 
-        public Canvas(Graphics g, System.Windows.Forms.PictureBox displayWindow)
+        public Canvas(Graphics g)
         {
             this.g = g;
-            this.displayWindow = displayWindow;
-            
+
             xPos = yPos = 0;
-
-
         }
-
-        public Canvas(Graphics graphics)
-        {
-            this.graphics = graphics;
-        }
-
-
 
         /// <summary>
         /// Draws a line connecting two position specifed by two coordinate pairs
@@ -126,32 +111,8 @@ namespace GraphicalProgrammingLanguage
             g.Clear(Color.Gray);
         }
 
-        public void flashrunner()
-        {
-            if (flashing)
-            {
-                if (cycle)
-                {
-                    Pen.Color = Color.Beige;
-                    SolidBrush SolidBrush = new SolidBrush(Color.AliceBlue);
-                    SolidBrush.Dispose();
-                    cycle = false;
-
-                }
-                else
-                {
-                    Pen.Color = Color.Black;
-                    SolidBrush SolidBrush = new SolidBrush(Color.White);
-                    cycle = true;
-
-                }
-                Update();
-            }
-        }
-        public void Update()
-        {
-            displayWindow.Refresh();
-        }
+        
+       
         
     }
 }
