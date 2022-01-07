@@ -18,6 +18,10 @@ namespace GraphicalProgrammingLanguage
         Bitmap bitmap = new Bitmap(640, 480);
         Canvas myCanvas;
         commandParser cp;
+        Thread thread;
+        Boolean flag = true;
+
+
         
         
 
@@ -29,8 +33,11 @@ namespace GraphicalProgrammingLanguage
             myCanvas = new Canvas(Graphics.FromImage(bitmap));
             cp = new commandParser(myCanvas);
            
+           
         }
+
         
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -42,7 +49,9 @@ namespace GraphicalProgrammingLanguage
         private void runButton_Click(object sender, EventArgs e)
         {
             // calls the commandparser class
-            cp.programWindow(programWindow.Text);
+            //cp.programWindow(programWindow.Text);
+            string text = programWindow.Text;
+            cp.programWindow(text);
 
             Refresh();
 
@@ -61,7 +70,9 @@ namespace GraphicalProgrammingLanguage
                 try
                 {
                     //calls the commandpaser class
-                    cp.commandLine(commandLine.Text, 0);
+                    string text = commandLine.Text;
+
+                    cp.CommandLine(text, 0);
                 }
                 catch (Exception ex)
                 {
@@ -70,6 +81,7 @@ namespace GraphicalProgrammingLanguage
             }
             else if (e.KeyCode == Keys.Enter && commandLine.Text == "run")
             {
+                commandLine.Text = "";
                 runButton.PerformClick();
             }
 
@@ -122,6 +134,21 @@ namespace GraphicalProgrammingLanguage
             this.Close();
             Form1 f1 = new Form1();
             f1.Close();
+        }
+
+        private void exportBitmapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Stream myStream;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "Bitmap files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = Path.GetFullPath(saveFileDialog.FileName);
+                bitmap.Save(path);
+            }
+
         }
     }
 }
