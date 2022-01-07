@@ -33,7 +33,11 @@ namespace GraphicalProgrammingLanguage
             myCanvas = canvas;
         }
 
-
+        public void CommandLine(string script, int i)
+        {
+            string line = script.Trim().ToLower();
+            string[] vs2 = line.Split(' ');
+        }
         public void programWindow(string script)
         {
             //creates char array called vs
@@ -53,7 +57,7 @@ namespace GraphicalProgrammingLanguage
                     String[] vs2 = line.Split(' ');
                     String command = vs2[0].ToLower();
 
-                    if (command.Equals("line") == true && vs2.Length > 1)
+                    if (command.Equals("drawto") == true && vs2.Length > 1)
                     {
                         if (If_flag == false || While_flag == false)
                         {
@@ -98,7 +102,7 @@ namespace GraphicalProgrammingLanguage
                                     }
                                     else
                                     {
-                                        throw new Exception("Varible does not exist or Unknown second parameter");
+                                        throw new Exception("Variable does not exist or Unknown second parameter");
                                         i++;
                                     }
                                 }
@@ -279,6 +283,7 @@ namespace GraphicalProgrammingLanguage
 
                         }
                     }
+
                     else if (command.Equals("reset") == true)
 
                     {
@@ -307,38 +312,8 @@ namespace GraphicalProgrammingLanguage
                             i++;
                         }
                     }
-                    else if (command.Equals("circle") == true && vs2.Length > 1)
-                    {
-                        if (If_flag == false || While_flag == false)
-                        {
-                            i++;
-                            continue;
-                        }
-                        else
-                        {
-                            if (vs2.Length != 2)
-                            {
-                                throw new Exception("Invalid Parameter.Ractangle command require 2 Parameter");
-                                i++;
-                            }
-                            else if (int.TryParse(vs2[1], out Integer) == false)
-                            {
-                                int position1 = Vname.IndexOf(vs2[1].ToLower());
 
-                                if (position1 > -1)
-                                {
-                                    int paramValue = Vvalue[position1];
-                                    myCanvas.DrawCircle(color, fill, paramValue);
-                                    i++;
-                                }
-                            }
-                            else
-                            {
-                                myCanvas.DrawCircle(color, fill, Int16.Parse(vs2[1]));
-                                i++;
-                            }
-                        }
-                    }
+                    
                     else if (command.Equals("triangle") == true && vs2.Length > 1)
                     {
                         if (If_flag == false || While_flag == false)
@@ -454,6 +429,44 @@ namespace GraphicalProgrammingLanguage
                             }
                         }
                     }
+                    else if (command.Equals("circle")== true && vs2.Length > 1)
+                    {
+                        if (If_flag == false || While_flag == false)
+                        {
+                            i++;
+                            continue;
+                        }
+                        else
+                        {
+                            if (vs2.Length != 2)
+                            {
+                                throw new Exception("Invalid parameter. Circle requires 1 parameter");
+                                i++;
+                            }
+
+                            else if(int.TryParse(vs2[1],out Integer)== false)
+                            {
+                                int position1 = Vname.IndexOf(vs2[1].ToLower());
+                                if(position1 > -1)
+                                {
+                                    int paramValue1 = Vvalue[position1];
+                                    myCanvas.DrawCircle(color, fill, paramValue1);
+                                    i++;
+                                }
+                                else
+                                {
+                                    throw new Exception("Unknown variable");
+                                    i++;
+                                }
+                                
+                            }
+                            else
+                            {
+                                myCanvas.DrawCircle(color, fill, Int16.Parse(vs2[1]));
+                                i++;
+                            }
+                        }
+                    }
                     else if (command.Equals("colour") == true && vs2.Length > 1)
                     {
                         if (If_flag == false || While_flag == false)
@@ -499,20 +512,250 @@ namespace GraphicalProgrammingLanguage
 
                     }
 
-                
-                      else if (command.Equals("fill") == true && vs2.Length > 1)
-                {
+
+                    else if (command.Equals("fill") == true && vs2.Length > 1)
+                    {
+                        if (If_flag == false || While_flag == false)
+                        {
+                            i++;
+                            continue;
+                        }
+                        else
+                        {
+                            if (vs2.Length != 2)
+                            {
+                                throw new Exception("Invalid parameter. Fill command requires 1 parameter");
+                                i++;
+                            }
+                            else if (vs2[1].ToLower() == "off" || vs2[1].ToLower() == "on")
+                            {
+                                if (vs2[1].ToLower() == "off")
+                                {
+                                    fill = 0;
+                                    i++;
+                                }
+                                else if (vs2[1].ToLower() == "on")
+                                {
+                                    fill = 1;
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                throw new Exception("Fill parameter should be on or off");
+                                i++;
+                            }
+                        }
+
+                    }
+                    else if (command.Equals("while") && vs2.Length > 1)
+                    {
+                        if (vs2.Length != 4)
+                        {
+                            throw new Exception("Invalid While loop command. While command required 3 parameter");
+                            i++;
+                        }
+                        else if (int.TryParse(vs2[3], out Integer) == false)
+                        {
+                            throw new Exception("Parameter should be an integer value");
+                            i++;
+
+                        }
+                        else
+                        {
+                            int position1 = Vname.IndexOf(vs2[1].ToLower());
+                            if (position1 > -1)
+                            {
+                                string paramValue1 = Vvalue[position1].ToString();
+                                string paramValue2 = paramValue1 + " " + vs2[2] + " " + vs2[3];
+
+                                //bool result1 = (bool)datatable.Compute(paramValue2, null);
+                                bool result1 = (bool)datatable.Compute(paramValue2, "");
+                                if (result1 == false)
+                                {
+                                    While_flag = false;
+                                    i++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    Counter = i;
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                throw new Exception("Unknown variable");
+                                i++;
+                            }
+                        }
+                    }
+                    else if (command.Equals("endwhile") == true && vs2.Length > 0)
+                    {
+                        if (vs2.Length != 1)
+                        {
+                            throw new Exception("Invalid endwhile command. no parameter required");
+                            i++;
+                        }
+                        else
+                        {
+                            if (While_flag == false)
+                            {
+                                While_flag = true;
+                                i++;
+                                continue;
+                            }
+                            else
+                            {
+                                i = Counter;
+                            }
+                        }
+                    }
+
+
+
+                    else if (command.Equals("if") == true && vs2.Length > 1)
+                    {
+                        if (vs2.Length != 4)
+                        {
+                            throw new Exception("Invalid if command. If command requires 3 parameter");
+                            i++;
+                        }
+                        else
+                        {
+                            int position1 = Vname.IndexOf(vs2[1].ToLower());
+                            if (position1 > -1)
+                            {
+                                string paramValue1 = Vvalue[position1].ToString();
+                                string paramValue2 = paramValue1 + " " + vs2[2] + " " + vs2[3];
+
+                                bool result2 = (bool)datatable.Compute(paramValue2, null);
+
+                                if (result2 == false)
+                                {
+                                    If_flag = false;
+                                    i++;
+                                    continue;
+                                }
+                                else
+                                {
+                                    i++;
+                                    continue;
+
+                                }
+                            }
+                        }
+                    }
+                    else if (command.Equals("endif") == true && vs2.Length > 0)
+                    {
+                        if (vs2.Length != 1)
+                        {
+                            throw new Exception("Invalid endif command. Endif command requires no parameters");
+                            i++;
+                        }
+                        else
+                        {
+                            i++;
+                            If_flag = true;
+                        }
+                    }
+                    else if (vs2[1].Equals("=") == true && vs2.Length > 1)
+                    {
+                        if (If_flag == false || While_flag == false)
+                        {
+                            i++;
+                            continue;
+                        }
+                        else
+                        {
+                            if (int.TryParse(vs2[2], out Integer) == false)
+                            {
+                                string[] parameter = vs2[2].Split('+');
+
+                                int position1 = Vname.IndexOf(parameter[0].ToLower());
+
+                                if (position1 > -1)
+                                {
+                                    string paramValue1 = Vvalue[position1].ToString();
+                                    string paramValue2 = paramValue1 + "+" + parameter[1];
+                                    var result1 = datatable.Compute(paramValue2, null);
+                                    int value = Int16.Parse(result1.ToString());
+                                    Vvalue[position1] = value;
+                                    i++;
+                                }
+                                else
+                                {
+                                    throw new Exception("Invalid variable declaration");
+                                    i++;
+                                }
+
+                            }
+                            else
+                            {
+                                int value = Int16.Parse(vs2[2]);
+                                int f = checkVariable(command);
+
+                                if (f == 1)
+                                {
+                                    Vname.Add(command);
+                                    Vvalue.Add(value);
+                                    i++;
+                                }
+                                else
+                                {
+                                    //go through the names of the variables using their index positions
+                                    for (int j = 0; j < Vname.Count(); j++)
+                                    {
+                                        // if the current variable matches the one we want
+                                        if (Vname[j].Equals(command))
+                                        {
+                                            // update the variables value
+                                            Vvalue[j] = value;
+                                        }
+                                    }
+                                    i++;
+                                }
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid syntax command");
+                        i++;
+                    }
+
+
+
+
 
                 }
-
-
-
                 catch (Exception e)
                 {
                     MessageBox.Show(string.Format("error on line{0} :{1}", (i + 1), e.Message));
+                    i++;
                 }
             }
 
+        }
+        public int checkVariable(string command)
+        {
+            if (Vname == null)
+            {
+                return 1;
+
+            }
+            else
+            {
+                if (Vname.Contains(command))
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
         }
     }
 }
