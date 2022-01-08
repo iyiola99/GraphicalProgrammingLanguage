@@ -13,36 +13,38 @@ namespace GraphicalProgrammingLanguage
 
     public class commandParser
     {
-        // default pen color is set to  black
+        //Default pen color is set to  black
         Color color = Color.Black;
-        //default fill is set to zero/off
+
+        //Default fill is set to zero/off
         int fill = 0;
+
         Canvas myCanvas;
         int Integer;
-        // start of array declaration
+        //Start of array declaration
         List<string> Vname = new List<string>();
-        //end of array declaration
+        //End of array declaration
         List<int> Vvalue = new List<int>();
 
         DataTable datatable = new DataTable();
 
+        // If and While flag set to true
         bool If_flag = true;
         bool While_flag = true;
         public commandParser(Canvas canvas)
         {
             myCanvas = canvas;
         }
-
-        public void CommandLine(string script, int i)
+      public void CommandLine(string script, int i)
         {
             string line = script.Trim().ToLower();
             string[] vs2 = line.Split(' ');
         }
         public void programWindow(string script)
         {
-            //creates char array called vs
+            //Creates char array called vs
             char[] vs = new[] { '\r', '\n' };
-            // splits the scripts string by \r and \n
+            //Splits the scripts string by \r and \n
             String[] vs1 = script.Split(vs, StringSplitOptions.RemoveEmptyEntries);
 
             int i = 0;
@@ -313,7 +315,7 @@ namespace GraphicalProgrammingLanguage
                         }
                     }
 
-                    
+
                     else if (command.Equals("triangle") == true && vs2.Length > 1)
                     {
                         if (If_flag == false || While_flag == false)
@@ -429,7 +431,7 @@ namespace GraphicalProgrammingLanguage
                             }
                         }
                     }
-                    else if (command.Equals("circle")== true && vs2.Length > 1)
+                    else if (command.Equals("circle") == true && vs2.Length > 1)
                     {
                         if (If_flag == false || While_flag == false)
                         {
@@ -444,10 +446,10 @@ namespace GraphicalProgrammingLanguage
                                 i++;
                             }
 
-                            else if(int.TryParse(vs2[1],out Integer)== false)
+                            else if (int.TryParse(vs2[1], out Integer) == false)
                             {
                                 int position1 = Vname.IndexOf(vs2[1].ToLower());
-                                if(position1 > -1)
+                                if (position1 > -1)
                                 {
                                     int paramValue1 = Vvalue[position1];
                                     myCanvas.DrawCircle(color, fill, paramValue1);
@@ -458,7 +460,7 @@ namespace GraphicalProgrammingLanguage
                                     throw new Exception("Unknown variable");
                                     i++;
                                 }
-                                
+
                             }
                             else
                             {

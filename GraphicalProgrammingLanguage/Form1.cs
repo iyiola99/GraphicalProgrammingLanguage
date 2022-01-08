@@ -18,31 +18,22 @@ namespace GraphicalProgrammingLanguage
         Bitmap bitmap = new Bitmap(640, 480);
         Canvas myCanvas;
         commandParser cp;
-        Thread thread;
-        Boolean flag = true;
-
-
-        
-        
-
-
-
+       
         public Form1()
         {
             InitializeComponent();
             myCanvas = new Canvas(Graphics.FromImage(bitmap));
             cp = new commandParser(myCanvas);
-           
-           
+
         }
 
-        
+
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
             //prevents flickering
-            this.DoubleBuffered = true; 
+            this.DoubleBuffered = true;
 
         }
 
@@ -142,7 +133,7 @@ namespace GraphicalProgrammingLanguage
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
             saveFileDialog.Filter = "Bitmap files (*.bmp)|*.bmp|All files (*.*)|*.*";
-            
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string path = Path.GetFullPath(saveFileDialog.FileName);

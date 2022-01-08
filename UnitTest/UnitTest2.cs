@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using GraphicalProgrammingLanguage;
+using System.IO;
 
 namespace UnitTest
 {
@@ -33,7 +34,7 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void test()
+        public void testHelp(Action<commandParser>action,Action<System.Drawing.Graphics,System.Drawing.Pen>action1)
         {
             Bitmap bitmap1 = new Bitmap(640, 480);
             Bitmap bitmap2 = new Bitmap(640, 480);
@@ -45,11 +46,120 @@ namespace UnitTest
             commandParser parser = new commandParser(canvas);
 
             graphics1.DrawLine(new Pen(Color.Black), new Point(0, 0), new Point(100, 100));
-            parser.commandLine("drawto 100 100", 0);
+            parser.CommandLine("drawto 100 100", 0);
 
             CompareBitmapsLazy(bitmap1, bitmap2);
         }
 
-      
+        [TestMethod]
+        public void parserClasstest()
+        {
+            testHelp(parser => { parser.programWindow("drawto 50,50"); },
+                (g, pen) =>
+                {
+                    g.DrawLine(pen,0,0,20,20);
+                }
+               
+                ) ;
+        }
+      [TestMethod]
+      public void whileloopTest()
+        {
+            void action (commandParser parser)
+            {
+                using (StreamReader streamReader= File.OpenText("..\\..\\..\\Desktop\\while loop.txt"))
+                {
+                    string reader = streamReader.ReadToEnd();
+                    parser.programWindow(reader);
+                }
+            }
+            void action1(Graphics graphics,Pen pen)
+            {
+                graphics.DrawEllipse(pen,0,0,50,50);
+                graphics.DrawEllipse(pen, 0,0,60,60);
+                graphics.DrawEllipse(pen, 0,0,70,70);
+
+            }
+            testHelp(action, action1);
+        }
+        [TestMethod]
+        public void movetoTest()
+        {
+            void action(commandParser parser)
+            {
+                parser.programWindow("moveto 50,50");
+                parser.programWindow("rectangle 10,40");
+            }
+            void action1(Graphics graphics, Pen pen)
+            {
+                graphics.DrawEllipse(pen,0,0,70,70);
+            }
+            testHelp(action,action1);
+        }
+
+        [TestMethod]
+        public void IfstatementTest()
+        {
+            void action(commandParser parser)
+            {
+                using(StreamReader streamReader = File.OpenText("*..\\..\\..\\Desktop\\if.txt"))
+                {
+                    string reader = streamReader.ReadToEnd();
+                    parser.programWindow(reader);
+
+
+                }
+            }
+                void action1(Graphics graphics, Pen pen)
+            {
+                graphics.DrawEllipse(pen, 0, 0, 50, 50);
+                pen.Color = Color.Red;
+                graphics.DrawEllipse(pen, 0, 0, 50, 100);
+            }
+            testHelp(action, action1);
+        }
+
+        [TestMethod]
+        public void VaribleTest()
+        {
+            void action(commandParser parser)
+            {
+                using(StreamReader streamReader = File.OpenText("..\\..\\..\\Desktop\\if.txt"))
+                {
+                    string reader = streamReader.ReadToEnd();
+                    parser.programWindow(reader);
+                }
+            }
+
+            void action1(Graphics graphics,Pen pen)
+            {
+                graphics.DrawLine(pen,0,0,50,50);
+                graphics.DrawRectangle(pen,50,50,70,80);
+                pen.Color = Color.FromArgb(50, 50, 200, 200);
+                graphics.DrawRectangle(pen,50,60,100,100);
+                pen.Color = Color.Red;
+                graphics.DrawLine(pen, 100, 100, 200, 200);
+            }
+            testHelp(action, action1);
+        }
+        [TestMethod]
+        public void ClearTest()
+        {
+            void action(commandParser parser)
+            {
+                parser.programWindow("fill on");
+                parser.programWindow("circle 100");
+                parser.programWindow("drawto 100,100");
+                parser.programWindow("clear");
+
+                parser.programWindow("rectangle 100 100");
+            }
+            void action1(Graphics graphics, Pen pen)
+            {
+                Brush brush = new SolidBrush(Color.FromArgb(100, 100, 150, 150));
+                graphics.FillRectangle(brush, 50, 50, 100, 100);
+            }
+            testHelp(action, action1);
+        }
     }
 }

@@ -10,8 +10,11 @@ namespace UnitTest
     {
         public void TestMethod1(string command)
         {
-            (new commandParser(new Canvas(Graphics.FromImage(new Bitmap(500, 500))))).commandLine(command, 0);
+            //(new commandParser(new Canvas(Graphics.FromImage(new Bitmap(500, 500))))).CommandLine(command, 0);
+            Canvas canvas = new Canvas(Graphics.FromImage(new Bitmap(500,500)));
+            commandParser parser = new commandParser(canvas);
 
+            parser.programWindow(command);
         }
         [TestMethod]
         [ExpectedException(typeof(Exception), "Invalid Coordinate ")]
@@ -48,5 +51,7 @@ namespace UnitTest
             TestMethod1(" clerr");
 
         }
+
     }
+    
 }

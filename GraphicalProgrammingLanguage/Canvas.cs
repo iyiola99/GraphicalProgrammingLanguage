@@ -18,8 +18,8 @@ namespace GraphicalProgrammingLanguage
         Pen Pen;
 
         int xPos, yPos; // pen position
-    
-        
+
+
 
         public Canvas(Graphics g)
         {
@@ -49,11 +49,11 @@ namespace GraphicalProgrammingLanguage
         /// <param name="colour">Pen colour</param>
         /// <param name="width">The width of rectangle</param>
         /// <param name="height">The height of rectangle</param>
-        public void DrawRectangle(Color colour,int fill, int width, int height)
+        public void DrawRectangle(Color colour, int fill, int width, int height)
         {
             int filled = fill;
 
-            if (filled==0)
+            if (filled == 0)
             {
                 Pen = new Pen(colour);
                 g.DrawRectangle(Pen, xPos, yPos, xPos + width, yPos + height);
@@ -61,17 +61,18 @@ namespace GraphicalProgrammingLanguage
             else if (filled == 1)
             {
                 SolidBrush solidBrush = new SolidBrush(colour);
-                g.FillRectangle(solidBrush, xPos,yPos,xPos+width, yPos +height);
+                g.FillRectangle(solidBrush, xPos, yPos, xPos + width, yPos + height);
             }
 
-            
+
         }
         /// <summary>
         /// Draws a circle specified by radius 
         /// </summary>
         /// <param name="colour">pen colour</param>
         /// <param name="radius">the radius of the circle</param>
-        public void DrawCircle(Color colour,int fill, int radius)
+        /// <param name="fill">specifies the fill on/off</param>
+        public void DrawCircle(Color colour, int fill, int radius)
         {
             int filled = fill;
             if (filled == 0)
@@ -82,17 +83,20 @@ namespace GraphicalProgrammingLanguage
             else if (filled == 1)
             {
                 SolidBrush solidBrush = new SolidBrush(colour);
-                g.FillEllipse(solidBrush,xPos,yPos,radius,radius);
+                g.FillEllipse(solidBrush, xPos, yPos, radius, radius);
             }
         }
-        
+
         /// <summary>
-        /// Draws a triangle specified by the array of point
+        /// Draws a triangle specified from coordinates
         /// </summary>
         /// <param name="colour">Pen colour</param>
-       
-
-        public void DrawTriangle(Color colour, int fill, int l1,int l2,int w1,int w2)
+        /// <param name="fill">specifies fill on/off </param>
+        /// <param name="l1">The middle x-axix coordinates</param>
+        /// <param name="l2">The middle y-axix coordinates</param>
+        /// <param name="w1">The ending x-axix coordinates</param>
+        /// <param name="w2">the ending y-axix coordinates</param>
+        public void DrawTriangle(Color colour, int fill, int l1, int l2, int w1, int w2)
 
         {
             int filled = fill;
@@ -137,8 +141,8 @@ namespace GraphicalProgrammingLanguage
             g.Clear(Color.Gray);
         }
 
-        
-       
-        
+
+
+
     }
 }
