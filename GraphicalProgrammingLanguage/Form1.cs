@@ -18,7 +18,7 @@ namespace GraphicalProgrammingLanguage
         Bitmap bitmap = new Bitmap(640, 480);
         Canvas myCanvas;
         commandParser cp;
-       
+
         public Form1()
         {
             InitializeComponent();

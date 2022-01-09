@@ -17,7 +17,7 @@ namespace GraphicalProgrammingLanguage
         Graphics g;
         Pen Pen;
 
-        int xPos, yPos; // pen position
+        int xPos, yPos; // Pen position
 
 
 
