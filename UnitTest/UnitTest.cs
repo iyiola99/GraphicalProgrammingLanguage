@@ -9,8 +9,14 @@ using System.IO;
 namespace UnitTest
 {
     [TestClass]
-   public class UnitTest2
+    public class UnitTest
     {
+        /// <summary>
+        /// Bitmap comparison
+        /// </summary>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">First bitmap</param>
+        /// <returns></returns>
         public bool CompareBitmapsLazy(Bitmap bmp1, Bitmap bmp2)
         {
             if (bmp1 == null || bmp2 == null)
@@ -32,9 +38,12 @@ namespace UnitTest
 
             return true;
         }
-
-        [TestMethod]
-        public void testHelp(Action<commandParser>action,Action<System.Drawing.Graphics,System.Drawing.Pen>action1)
+        /// <summary>
+        /// Creates a valid unit test
+        /// </summary>
+        /// <param name="action">Takes function with the command parser as an argumnet</param>
+        /// <param name="action1">Takes a function thatspassed a pen and graphics class</param>
+        public void testHelp(Action<commandParser> action, Action<System.Drawing.Graphics, System.Drawing.Pen> action1)
         {
             Bitmap bitmap1 = new Bitmap(640, 480);
             Bitmap bitmap2 = new Bitmap(640, 480);
@@ -45,43 +54,52 @@ namespace UnitTest
             Canvas canvas = new Canvas(graphics2);
             commandParser parser = new commandParser(canvas);
 
-            graphics1.DrawLine(new Pen(Color.Black), new Point(0, 0), new Point(100, 100));
-            parser.CommandLine("drawto 100 100", 0);
+            action(parser);
+            action1(graphics1, new Pen(Color.Black));
 
             CompareBitmapsLazy(bitmap1, bitmap2);
         }
-
+        /// <summary>
+        /// Tests valid drawtocommand
+        /// </summary>
         [TestMethod]
+
         public void parserClasstest()
         {
             testHelp(parser => { parser.programWindow("drawto 50,50"); },
                 (g, pen) =>
                 {
-                    g.DrawLine(pen,0,0,20,20);
+                    g.DrawLine(pen, 0, 0, 20, 20);
                 }
-               
-                ) ;
+
+                );
         }
-      [TestMethod]
-      public void whileloopTest()
+        /// <summary>
+        /// Test valid while command
+        /// </summary>
+        [TestMethod]
+        public void WhileloopTest()
         {
-            void action (commandParser parser)
+            void action(commandParser parser)
             {
-                using (StreamReader streamReader= File.OpenText("..\\..\\..\\Desktop\\while loop.txt"))
+                using (StreamReader streamReader = File.OpenText("..\\..\\..\\Testing\\while.txt"))
                 {
                     string reader = streamReader.ReadToEnd();
                     parser.programWindow(reader);
                 }
             }
-            void action1(Graphics graphics,Pen pen)
+            void action1(Graphics graphics, Pen pen)
             {
-                graphics.DrawEllipse(pen,0,0,50,50);
-                graphics.DrawEllipse(pen, 0,0,60,60);
-                graphics.DrawEllipse(pen, 0,0,70,70);
+                graphics.DrawEllipse(pen, 0, 0, 50, 50);
+                graphics.DrawEllipse(pen, 0, 0, 60, 60);
+                graphics.DrawEllipse(pen, 0, 0, 70, 70);
 
             }
             testHelp(action, action1);
         }
+        /// <summary>
+        /// Test valid moveto command
+        /// </summary>
         [TestMethod]
         public void movetoTest()
         {
@@ -92,17 +110,19 @@ namespace UnitTest
             }
             void action1(Graphics graphics, Pen pen)
             {
-                graphics.DrawEllipse(pen,0,0,70,70);
+                graphics.DrawEllipse(pen, 0, 0, 70, 70);
             }
-            testHelp(action,action1);
+            testHelp(action, action1);
         }
-
+        /// <summary>
+        /// Test valid if statement
+        /// </summary>
         [TestMethod]
         public void IfstatementTest()
         {
             void action(commandParser parser)
             {
-                using(StreamReader streamReader = File.OpenText("*..\\..\\..\\Desktop\\if.txt"))
+                using (StreamReader streamReader = File.OpenText("..\\..\\..\\Testing\\if.txt"))
                 {
                     string reader = streamReader.ReadToEnd();
                     parser.programWindow(reader);
@@ -110,7 +130,7 @@ namespace UnitTest
 
                 }
             }
-                void action1(Graphics graphics, Pen pen)
+            void action1(Graphics graphics, Pen pen)
             {
                 graphics.DrawEllipse(pen, 0, 0, 50, 50);
                 pen.Color = Color.Red;
@@ -118,30 +138,35 @@ namespace UnitTest
             }
             testHelp(action, action1);
         }
-
+        /// <summary>
+        /// Test valid variable
+        /// </summary>
         [TestMethod]
         public void VaribleTest()
         {
             void action(commandParser parser)
             {
-                using(StreamReader streamReader = File.OpenText("..\\..\\..\\Desktop\\if.txt"))
+                using (StreamReader streamReader = File.OpenText("..\\..\\..\\Testing\\while.txt"))
                 {
                     string reader = streamReader.ReadToEnd();
                     parser.programWindow(reader);
                 }
             }
 
-            void action1(Graphics graphics,Pen pen)
+            void action1(Graphics graphics, Pen pen)
             {
-                graphics.DrawLine(pen,0,0,50,50);
-                graphics.DrawRectangle(pen,50,50,70,80);
+                graphics.DrawLine(pen, 0, 0, 50, 50);
+                graphics.DrawRectangle(pen, 50, 50, 70, 80);
                 pen.Color = Color.FromArgb(50, 50, 200, 200);
-                graphics.DrawRectangle(pen,50,60,100,100);
+                graphics.DrawRectangle(pen, 50, 60, 100, 100);
                 pen.Color = Color.Red;
                 graphics.DrawLine(pen, 100, 100, 200, 200);
             }
             testHelp(action, action1);
         }
+        /// <summary>
+        /// Valid clear test
+        /// </summary>
         [TestMethod]
         public void ClearTest()
         {

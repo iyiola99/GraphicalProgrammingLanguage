@@ -1,0 +1,5 @@
+﻿radius = 50
+while radius < 250
+circle radius
+radius = radius+10
+endwhile

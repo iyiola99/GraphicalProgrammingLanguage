@@ -1,0 +1,7 @@
+﻿value = 200
+if value < 100
+rectangle 50,50
+triangle 50,50,50,50
+endif
+if value >= 100
+circle 50
